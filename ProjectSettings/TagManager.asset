@@ -7,19 +7,20 @@ TagManager:
   - Surface
   - Hole
   - Eatable
+  - DeathZone
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Surface
   - Water
   - UI
+  - Hole
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - NormalSphereLayer
+  - FallingSphereLayer
+  - Ground
   - 
   - 
   - 
