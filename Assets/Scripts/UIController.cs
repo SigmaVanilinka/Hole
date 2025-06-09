@@ -55,7 +55,8 @@ public class UIController : MonoBehaviour
 
     public void WinGame()
     {
-        var playerMaxScore = player.GetComponent<HoleHandler>().MaxFoodScore; // MAX SCORE
+        IsPaused = true;
+        var playerMaxScore = player.GetComponent<Hole>().MaxFoodScore; // MAX SCORE
         menuWin.SetActive(true);
         menuWin.transform.GetChild(0).GetChild(3).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "SCORE • " + Mathf.Floor(playerMaxScore);
         if (playerMaxScore > playerRecordScore)
@@ -84,6 +85,7 @@ public class UIController : MonoBehaviour
     {
         if (level.childCount == 0)
         {
+            Debug.Log("Huray");
             WinGame();
         }
     }

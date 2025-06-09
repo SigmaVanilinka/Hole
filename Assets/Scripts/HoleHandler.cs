@@ -6,52 +6,23 @@ using TMPro;
 public class HoleHandler : MonoBehaviour
 {
     public int NormalSphereLayer, FallingSphereLayer;
-    [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private TextMeshProUGUI ast;
     [SerializeField] private GameObject hole;
-    public int FoodScore;
-    public int MaxFoodScore;
-    private bool IsHungry = true;
-    private float cf;
+    [SerializeField] private Hole holeScript;
     [SerializeField] private UIController uc;
+    [SerializeField] private TextMeshProUGUI Mtmp;
+    [SerializeField] private TextMeshProUGUI tmp;
 
-    private void Start()
-    {
-        tmp.text = "1";
-        cf = 5;
-
-    }
 
     private void FixedUpdate()
     {
-        transform.position = new Vector3(hole.transform.position.x,transform.position.y,hole.transform.position.z);
+        transform.position = new Vector3(hole.transform.position.x, transform.position.y, hole.transform.position.z);
+        uc.IsGameOver();
     }
 
-    private void Update()
-    {
-        if(IsHungry&& uc.IsPaused == false)
-        {
-            StartCoroutine(Hunger());
-        }
-        if(cf<=1)
-        {
-            Destroy(hole);
-        }
-    }
-    private IEnumerator Hunger()
-    {
-        IsHungry=false;
-        hole.transform.localScale -= new Vector3(0.1f, 0, 0.1f);
-        cf*=0.9f;
-        tmp.text = (System.Math.Round(cf)).ToString();
-        yield return new WaitForSeconds(2f);
-        IsHungry = true;
-    }
-    
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("!");
         if (other.gameObject.layer == NormalSphereLayer)
         {
             other.gameObject.layer = FallingSphereLayer;
@@ -70,9 +41,15 @@ public class HoleHandler : MonoBehaviour
         {
             Destroy(other.gameObject);
             Food objectFood = other.GetComponent<Food>();
-            tmp.text = (int.Parse(tmp.text)+objectFood.scoreValue).ToString();
-            FoodScore+=objectFood.scoreValue;
-            hole.transform.localScale += new Vector3(objectFood.foodValue, 0, objectFood.foodValue);
+            holeScript.FoodScore+=objectFood.scoreValue;
+            tmp.text = System.Math.Floor(holeScript.FoodScore).ToString();
+            if (holeScript.FoodScore > holeScript.MaxFoodScore)
+            {
+                holeScript.MaxFoodScore = (float)System.Math.Floor(holeScript.FoodScore);
+                Mtmp.text = holeScript.MaxFoodScore.ToString();
+            }
+            hole.transform.localScale += new Vector3(objectFood.foodValue/2, objectFood.foodValue/2, objectFood.foodValue/2);
+            uc.IsGameOver();
             ast.text = "+" + objectFood.foodValue;
         }
     }
