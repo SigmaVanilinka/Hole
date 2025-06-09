@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class HoleHandler : MonoBehaviour
@@ -12,12 +13,14 @@ public class HoleHandler : MonoBehaviour
     [SerializeField] private UIController uc;
     [SerializeField] private TextMeshProUGUI Mtmp;
     [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private Slider slider;
 
 
     private void FixedUpdate()
     {
         transform.position = new Vector3(hole.transform.position.x, transform.position.y, hole.transform.position.z);
         uc.IsGameOver();
+        slider.value = holeScript.FoodScore;
     }
 
 
@@ -51,6 +54,8 @@ public class HoleHandler : MonoBehaviour
             {
                 holeScript.MaxFoodScore = (float)System.Math.Floor(holeScript.FoodScore);
                 Mtmp.text = holeScript.MaxFoodScore.ToString();
+                slider.maxValue = holeScript.MaxFoodScore;
+                slider.value = slider.maxValue;
             }
             uc.IsGameOver();
             ast.text = "+" + objectFood.foodValue;

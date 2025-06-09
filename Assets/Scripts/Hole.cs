@@ -16,12 +16,12 @@ public class Hole : MonoBehaviour
     private void Eat(float change)
     {
         FoodScore += change;
-        if (FoodScore < 1)
+        if (FoodScore < 1||transform.localScale.x<1)
         {
             uc.LoseGame();
         }
         else tmp.text = (System.Math.Floor(FoodScore)).ToString();
-        transform.localScale += new Vector3(change, change, change);
+        transform.localScale += new Vector3(change/2, change/2, change/2);
 
 
     }
