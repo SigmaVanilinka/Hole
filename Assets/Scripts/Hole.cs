@@ -16,12 +16,12 @@ public class Hole : MonoBehaviour
     private void Eat(float change)
     {
         FoodScore += change;
-        if (FoodScore <= 0)
+        if (FoodScore < 1)
         {
             uc.LoseGame();
         }
         else tmp.text = (System.Math.Floor(FoodScore)).ToString();
-        transform.localScale += new Vector3(change / 10, change / 10, change / 10);
+        transform.localScale += new Vector3(change, change, change);
 
 
     }
@@ -29,7 +29,7 @@ public class Hole : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (FoodScore > 0)
+        if (FoodScore > 0&&!uc.IsPaused)
         {
             var StarveValue = FoodScore * StarvationRate;
             Eat(-StarveValue);

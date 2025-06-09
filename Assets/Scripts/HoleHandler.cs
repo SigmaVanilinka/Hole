@@ -41,14 +41,17 @@ public class HoleHandler : MonoBehaviour
         {
             Destroy(other.gameObject);
             Food objectFood = other.GetComponent<Food>();
-            holeScript.FoodScore+=objectFood.scoreValue;
+            if (!uc.IsPaused)
+            {
+                holeScript.FoodScore += objectFood.scoreValue;
+                hole.transform.localScale += new Vector3(objectFood.foodValue / 2, objectFood.foodValue / 2, objectFood.foodValue / 2);
+            }
             tmp.text = System.Math.Floor(holeScript.FoodScore).ToString();
             if (holeScript.FoodScore > holeScript.MaxFoodScore)
             {
                 holeScript.MaxFoodScore = (float)System.Math.Floor(holeScript.FoodScore);
                 Mtmp.text = holeScript.MaxFoodScore.ToString();
             }
-            hole.transform.localScale += new Vector3(objectFood.foodValue/2, objectFood.foodValue/2, objectFood.foodValue/2);
             uc.IsGameOver();
             ast.text = "+" + objectFood.foodValue;
         }

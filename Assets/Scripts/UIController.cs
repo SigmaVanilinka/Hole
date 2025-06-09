@@ -57,21 +57,32 @@ public class UIController : MonoBehaviour
     {
         IsPaused = true;
         var playerMaxScore = player.GetComponent<Hole>().MaxFoodScore; // MAX SCORE
+        var playerRecordScore = PlayerPrefs.GetFloat("RecordScore", 0f);
         menuWin.SetActive(true);
-        menuWin.transform.GetChild(0).GetChild(3).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "SCORE • " + Mathf.Floor(playerMaxScore);
+        menuWin.transform.GetChild(1).GetChild(0).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "SCORE • " + Mathf.Floor(playerMaxScore);
         if (playerMaxScore > playerRecordScore)
         {
-            PlayerPrefs.SetFloat("RecordScore", (float)playerMaxScore);
+            PlayerPrefs.SetFloat("RecordScore", playerMaxScore);
             PlayerPrefs.Save();
             playerRecordScore = PlayerPrefs.GetFloat("RecordScore");
-            menuWin.transform.GetChild(0).GetChild(4).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "RECORD • " + Mathf.Floor(playerRecordScore);
         }
+        menuWin.transform.GetChild(1).GetChild(1).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "RECORD • " + Mathf.Floor(playerRecordScore);
     }
 
     public void LoseGame()
     {
-        // Implement lose game logic here
-        Debug.Log("You lose!");
+        IsPaused = true;
+        var playerMaxScore = player.GetComponent<Hole>().MaxFoodScore; // MAX SCORE
+        var playerRecordScore = PlayerPrefs.GetFloat("RecordScore", 0f);
+        menuLose.SetActive(true);
+        menuLose.transform.GetChild(1).GetChild(0).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "SCORE • " + Mathf.Floor(playerMaxScore);
+        if (playerMaxScore > playerRecordScore)
+        {
+            PlayerPrefs.SetFloat("RecordScore", playerMaxScore);
+            PlayerPrefs.Save();
+            playerRecordScore = PlayerPrefs.GetFloat("RecordScore");
+        }
+        menuLose.transform.GetChild(1).GetChild(1).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "RECORD • " + Mathf.Floor(playerRecordScore);
     }
 
     public void RestartGame()
