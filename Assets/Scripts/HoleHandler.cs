@@ -7,13 +7,14 @@ using TMPro;
 public class HoleHandler : MonoBehaviour
 {
     public int NormalSphereLayer, FallingSphereLayer;
-    [SerializeField] private TextMeshProUGUI ast;
+    [SerializeField] private GameObject ast;
     [SerializeField] private GameObject hole;
     [SerializeField] private Hole holeScript;
     [SerializeField] private UIController uc;
     [SerializeField] private TextMeshProUGUI Mtmp;
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private Slider slider;
+    public Transform HoleHUD;
 
 
     private void FixedUpdate()
@@ -58,7 +59,8 @@ public class HoleHandler : MonoBehaviour
                 slider.value = slider.maxValue;
             }
             uc.IsGameOver();
-            ast.text = "+" + objectFood.foodValue;
+            GameObject AddedScoreText = Instantiate(ast, HoleHUD);
+            AddedScoreText.GetComponent<TextMeshProUGUI>().text = "+" + objectFood.scoreValue.ToString();
         }
     }
 }
